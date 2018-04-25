@@ -1,11 +1,9 @@
 package ua.bookUnity.model;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
 public class Category {
+
+
 
 	private Integer categoryID;
 	private String categoryName;
@@ -20,6 +18,23 @@ public class Category {
 	
 	public String toString() {
 		return "ID "+this.categoryID+"\nName "+this.categoryName;
+	}
+	
+
+	public Integer getCategoryID() {
+		return categoryID;
+	}
+
+	public void setCategoryID(Integer categoryID) {
+		this.categoryID = categoryID;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 	
 }

@@ -1,10 +1,5 @@
 package ua.bookUnity.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Setter
-@Getter
 public class Condition {
 	
 	private Integer conditionID;
@@ -20,4 +15,22 @@ public class Condition {
 	public String toString() {
 		return "ID "+this.conditionID+"\nName "+this.conditionName;
 	}
+	
+	
+	public Integer getConditionID() {
+		return conditionID;
+	}
+
+	public void setConditionID(Integer conditionID) {
+		this.conditionID = conditionID;
+	}
+
+	public String getConditionName() {
+		return conditionName;
+	}
+
+	public void setConditionName(String conditionName) {
+		this.conditionName = conditionName;
+	}
+	
 }

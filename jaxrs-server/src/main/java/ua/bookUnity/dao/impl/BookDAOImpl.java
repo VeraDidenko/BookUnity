@@ -313,8 +313,8 @@ public class BookDAOImpl implements BookDAO{
 			
 			statement.setString(1, author);
 			ResultSet result =  statement.executeQuery();
-
 			while(result.next()) {
+				System.out.println(result.getInt("book_id"));
 				Book book = new Book();
 				book.setBookID(result.getInt("book_id"));
 				book.setBookName(result.getString("name"));

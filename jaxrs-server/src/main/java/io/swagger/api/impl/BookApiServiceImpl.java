@@ -10,9 +10,13 @@ import ua.bookUnity.dao.BookDAO;
 import ua.bookUnity.dao.CategoryDAO;
 import ua.bookUnity.dao.BookGenreDAO;
 import ua.bookUnity.dao.ConditionDAO;
+import ua.bookUnity.dao.GenreDAO;
+import ua.bookUnity.dao.SubcategoryDAO;
 import ua.bookUnity.dao.impl.BookDAOImpl;
 import ua.bookUnity.dao.impl.CategoryDAOImpl;
 import ua.bookUnity.dao.impl.ConditionDAOImpl;
+import ua.bookUnity.dao.impl.GenreDAOImpl;
+import ua.bookUnity.dao.impl.SubcategoryDAOImpl;
 import ua.bookUnity.dao.impl.BookGenreDAOImpl;
 import ua.bookUnity.model.Category;
 
@@ -22,6 +26,7 @@ import java.io.InputStream;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response.Status;
@@ -35,10 +40,16 @@ public class BookApiServiceImpl extends BookApiService {
     	Category category = categoryDAO.getOneByName(body.getCategory());
     	BookDAO bookDAO = new BookDAOImpl();
     	ua.bookUnity.model.Book book = bookDAO.save(body.getName(), body.getAuthor(), body.getLanguage(), body.getYearOfIssue(), body.getPublishingHouse(), body.getDescription(), body.getNumberOfPages(), body.getPrice(), body.getOwnImpression(),body.getLogin() , body.getCondition().getId(),  category.getCategoryID());
+    	
     	BookGenreDAO bookGenreDAO = new BookGenreDAOImpl();
+    	SubcategoryDAO subcatDAO = new SubcategoryDAOImpl();
+    	
+    	
     	for(Genre gen: body.getGenre()) {	
-    		ua.bookUnity.model.BookGenre bookGenre =  bookGenreDAO.save(book.getBookID(), gen.getId(), gen.getId());
+    		ua.bookUnity.model.Subcategory subcat = subcatDAO.getOneByName(gen.getName());
+    		bookGenreDAO.save(book.getBookID(), gen.getId().intValue(),subcat.getSubcategoryID());
     	}
+    	
     	if(book!=null) {
        	 return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "Book is created!!!")).build();
        }
@@ -68,9 +79,10 @@ public class BookApiServiceImpl extends BookApiService {
     	}
     	
     	
+    	
     	if(author!=null) {
         	List<ua.bookUnity.model.Book> list = bookDAO.getAllByAuthor(author);
-        	bookList.addAll(list);	  		    		
+           	bookList.addAll(list);	  		    		
     	}
     	
     	if(year!=null) {
@@ -90,14 +102,14 @@ public class BookApiServiceImpl extends BookApiService {
     		}
     	}
     	
-        return Response.ok(resultList).entity(new ApiResponseMessage(ApiResponseMessage.OK, "Filtered books!")).build();
+        return Response.ok(resultList,MediaType.APPLICATION_JSON).build();
     }
     @Override
     public Response getBookById(Long bookId, SecurityContext securityContext) throws NotFoundException {
     	BookDAO bookDAO = new BookDAOImpl();
     	ua.bookUnity.model.Book book = bookDAO.getOneByID(bookId.intValue());
     	if(book!=null) {
-    		return Response.ok(normalizeBook(book)).entity(new ApiResponseMessage(ApiResponseMessage.OK, "Book returned!")).build();
+    		return Response.ok(normalizeBook(book),MediaType.APPLICATION_JSON).build();
     	}
     	
     	return Response.status(Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "No book with this ID!!!")).build();
@@ -130,7 +142,7 @@ public class BookApiServiceImpl extends BookApiService {
     	
     	List<ua.bookUnity.model.Book> bookList = new LinkedList<>();
     	List<Book> resultList = new LinkedList<>();
-    	
+
      	if(login!=null) {
         	List<ua.bookUnity.model.Book> list = bookDAO.getAllByAccount(login);
         	bookList.addAll(list);	  		    		
@@ -143,7 +155,7 @@ public class BookApiServiceImpl extends BookApiService {
     		}
     	}
      	
-     	Response.ok(resultList).entity(new ApiResponseMessage(ApiResponseMessage.OK, "Filtered books!")).build();
+     	return Response.ok(resultList,MediaType.APPLICATION_JSON).build();
     }
     
     

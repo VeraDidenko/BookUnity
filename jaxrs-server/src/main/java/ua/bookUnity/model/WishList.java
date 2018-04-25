@@ -1,10 +1,6 @@
 package ua.bookUnity.model;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
 public class WishList {
 
 	private String login_fk;
@@ -20,4 +16,21 @@ public class WishList {
 	public String toString() {
 		return "Login: "+this.login_fk+"\nBook: "+this.book_fk+"\n";
 	}
+	
+	public String getLogin_fk() {
+		return login_fk;
+	}
+
+	public void setLogin_fk(String login_fk) {
+		this.login_fk = login_fk;
+	}
+
+	public Integer getBook_fk() {
+		return book_fk;
+	}
+
+	public void setBook_fk(Integer book_fk) {
+		this.book_fk = book_fk;
+	}
+	
 }

@@ -2,12 +2,9 @@ package ua.bookUnity.model;
 
 import java.io.File;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Setter
-@Getter
 public class Foto {
+
+	
 
 	private Integer fotoID;
 	private File foto;
@@ -26,4 +23,39 @@ public class Foto {
 	public String toString() {
 		return "Foto: "+this.foto.getName()+"\nBook: "+this.book_fk;
 	}
+	
+	
+	public Integer getFotoID() {
+		return fotoID;
+	}
+
+	public void setFotoID(Integer fotoID) {
+		this.fotoID = fotoID;
+	}
+
+	public File getFoto() {
+		return foto;
+	}
+
+	public void setFoto(File foto) {
+		this.foto = foto;
+	}
+
+	public String getFotoName() {
+		return fotoName;
+	}
+
+	public void setFotoName(String fotoName) {
+		this.fotoName = fotoName;
+	}
+
+	public Integer getBook_fk() {
+		return book_fk;
+	}
+
+	public void setBook_fk(Integer book_fk) {
+		this.book_fk = book_fk;
+	}
+	
+	
 }
