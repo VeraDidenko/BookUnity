@@ -8,10 +8,12 @@ import java.io.File;
 import io.swagger.model.ModelApiResponse;
 import ua.bookUnity.dao.BookDAO;
 import ua.bookUnity.dao.CategoryDAO;
+import ua.bookUnity.dao.BookGenreDAO;
 import ua.bookUnity.dao.ConditionDAO;
 import ua.bookUnity.dao.impl.BookDAOImpl;
 import ua.bookUnity.dao.impl.CategoryDAOImpl;
 import ua.bookUnity.dao.impl.ConditionDAOImpl;
+import ua.bookUnity.dao.impl.BookGenreDAOImpl;
 import ua.bookUnity.model.Category;
 
 import java.util.LinkedList;
@@ -33,7 +35,10 @@ public class BookApiServiceImpl extends BookApiService {
     	Category category = categoryDAO.getOneByName(body.getCategory());
     	BookDAO bookDAO = new BookDAOImpl();
     	ua.bookUnity.model.Book book = bookDAO.save(body.getName(), body.getAuthor(), body.getLanguage(), body.getYearOfIssue(), body.getPublishingHouse(), body.getDescription(), body.getNumberOfPages(), body.getPrice(), body.getOwnImpression(),body.getLogin() , body.getCondition().getId(),  category.getCategoryID());
-    //add genre    
+    	BookGenreDAO bookGenreDAO = new BookGenreDAOImpl();
+    	for(Genre gen: body.getGenre()) {	
+    		ua.bookUnity.model.BookGenre bookGenre =  bookGenreDAO.save(book.getBookID(), gen.getId(), gen.getId());
+    	}
     	if(book!=null) {
        	 return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "Book is created!!!")).build();
        }
@@ -117,6 +122,28 @@ public class BookApiServiceImpl extends BookApiService {
     	//write upload
     	
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    
+    @Override
+    public Response showBooks(String login, SecurityContext securityContext) throws NotFoundException {
+    	BookDAO bookDAO = new BookDAOImpl();
+    	
+    	List<ua.bookUnity.model.Book> bookList = new LinkedList<>();
+    	List<Book> resultList = new LinkedList<>();
+    	
+     	if(login!=null) {
+        	List<ua.bookUnity.model.Book> list = bookDAO.getAllByAccount(login);
+        	bookList.addAll(list);	  		    		
+    	}
+     	
+       	for(ua.bookUnity.model.Book book : bookList) {
+    		Book normalBook = normalizeBook(book);
+    		if(!resultList.contains(normalBook)) {
+    			resultList.add(normalBook);
+    		}
+    	}
+     	
+     	Response.ok(resultList).entity(new ApiResponseMessage(ApiResponseMessage.OK, "Filtered books!")).build();
     }
     
     

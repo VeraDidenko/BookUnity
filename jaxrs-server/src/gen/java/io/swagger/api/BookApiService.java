@@ -25,4 +25,5 @@ public abstract class BookApiService {
     public abstract Response getBookById(Long bookId,SecurityContext securityContext) throws NotFoundException;
     public abstract Response updateBook(Book body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response uploadFile(Long bookId,String additionalMetadata,InputStream fileInputStream, FormDataContentDisposition fileDetail,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response showBooks(String login,SecurityContext securityContext) throws NotFoundException;
 }

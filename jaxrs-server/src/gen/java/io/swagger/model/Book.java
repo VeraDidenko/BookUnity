@@ -65,7 +65,7 @@ public class Book   {
   private Condition condition = null;
 
   @JsonProperty("genre")
-  private Genre genre = null;
+  private List<Genre> genre = null;
 
   @JsonProperty("photos")
   private List<Photo> photos = null;
@@ -346,7 +346,7 @@ public class Book   {
     this.condition = condition;
   }
 
-  public Book genre(Genre genre) {
+  public Book genre(List<Genre> genre) {
     this.genre = genre;
     return this;
   }
@@ -358,11 +358,11 @@ public class Book   {
   @JsonProperty("genre")
   @ApiModelProperty(required = true, value = "")
   @NotNull
-  public Genre getGenre() {
+  public List<Genre> getGenre() {
     return genre;
   }
 
-  public void setGenre(Genre genre) {
+  public void setGenre(List<Genre> genre) {
     this.genre = genre;
   }
 

@@ -170,4 +170,16 @@ public class BookApi  {
     throws NotFoundException {
         return delegate.uploadFile(bookId,additionalMetadata,fileInputStream, fileDetail,securityContext);
     }
+    @GET
+    @Path("/showBooks")
+    
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Show books", notes = "", response = Book.class, responseContainer = "List", tags={ "massage", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Book.class, responseContainer = "List") })
+    public Response showBooks(@ApiParam(value = "Created massage" ,required=true) Book body
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.recieveMassage(body,securityContext);
+    }
 }
