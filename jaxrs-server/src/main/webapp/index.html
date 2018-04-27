@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>BookUnity</title>
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <meta property="og:title" content="BookUnity">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="BookUnity web app that lets you exchange, sell, or give away your books with other book lovers.">
+    <meta property="og:site_name" content="An web app">
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.js"></script>
+    
+    <script>
+        /**
+         * Initializes the Google API JavaScript client. Bootstrap the angular module after loading the Google libraries
+         * so that Google JavaScript library ready in the angular modules.
+         */
+        function init() {
+            gapi.client.load('BookUnity', 'v1', null, '//' + window.location.host + '/_ah/api');
+            gapi.client.load('oauth2', 'v2', function () {
+                angular.bootstrap(document, ['BookUnityApp']);
+            });
+        };
+    </script>
+    <script src="//apis.google.com/js/client:plusone.js?onload=init"></script>
+</head>
+
+<!-- Restore the credential from cookie if stored by calling initSignInButton() -->
+<body ng-controller="RootCtrl" ng-init="initSignInButton()">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/controllers.js"></script>
+
+<!-- Put the signInButton to invoke the gapi.signin.render to restore the credential if stored in cookie. -->
+<span id="signInButton" style="display: none" disabled="true"></span>
+
+</body>
+</html>
